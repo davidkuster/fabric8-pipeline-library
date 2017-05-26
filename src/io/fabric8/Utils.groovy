@@ -28,6 +28,16 @@ def getNamespace() {
 }
 
 @NonCPS
+def getNamespace(String namespace) {
+  try {
+    return new DefaultKubernetesClient().namespaces().withName(namespace).get()
+  } catch (e) {
+    println "error getting namespace $namespace: $e"
+    return null
+  }
+}
+
+@NonCPS
 def getImageStreamSha(imageStreamName) {
   OpenShiftClient oc = new DefaultOpenShiftClient()
   return findTagSha(oc, imageStreamName, getNamespace())
