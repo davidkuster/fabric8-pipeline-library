@@ -6,13 +6,11 @@ import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 import io.fabric8.openshift.client.DefaultOpenShiftClient
 import io.fabric8.openshift.client.OpenShiftClient
-import io.fabric8.Fabric8Commands
 import jenkins.model.Jenkins
 import org.jenkinsci.plugins.workflow.job.WorkflowJob
 
 @NonCPS
 def environmentNamespace(environment) {
-  KubernetesClient kubernetes = new DefaultKubernetesClient()
   def ns = getNamespace()
   if (ns.endsWith("-jenkins")){
     ns = ns.substring(0, ns.lastIndexOf("-jenkins"))
@@ -322,9 +320,6 @@ def getDownstreamProjectOverrides(project, id, downstreamProject, botName = '@fa
 }
 
 def getDownstreamProjectOverrides(downstreamProject, botName = '@fabric8cd'){
-
-  def flow = new Fabric8Commands()
-
   def id = env.CHANGE_ID
   if (!id){
     error 'no env.CHANGE_ID / pull request id found'
@@ -332,7 +327,7 @@ def getDownstreamProjectOverrides(downstreamProject, botName = '@fabric8cd'){
 
   def project = getRepoName()
 
-  return getDownstreamProjectOverrides(project, id, downstreamProject, botName = '@fabric8cd')
+  return getDownstreamProjectOverrides(project, id, downstreamProject, botName)
 }
 
 
