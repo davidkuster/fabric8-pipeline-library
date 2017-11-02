@@ -21,7 +21,6 @@ def call(body) {
             }
         } catch (e) {
             echo "ERROR: failed to find the environment namespace for ${envName} due to ${e}"
-            e.printStackTrace()
         }
     }
 
