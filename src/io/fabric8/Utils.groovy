@@ -193,7 +193,8 @@ String getUsersPipelineConfig(k) {
     def ns = getUsersNamespace()
     def r = client.configMaps().inNamespace(ns).withName('fabric8-pipelines').get()
     if (!r){
-      error "no fabric8-pipelines configmap found in namespace ${ns}"
+      echo "no fabric8-pipelines configmap found in namespace ${ns}"
+      return null
     }
     def d = r.getData()
     echo "looking for key ${k} in ${ns}/fabric8-pipelines configmap"
@@ -328,7 +329,7 @@ def getBranch(){
       return null
     }
   }
-  echo "Using branch ${branch}" 
+  echo "Using branch ${branch}"
   return branch
 }
 
