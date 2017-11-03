@@ -152,7 +152,6 @@ def supportsOpenShiftS2I() {
  */
 @NonCPS
 boolean isUseDockerSocket() {
-  boolean answer = false
   try {
     def config = pipelineConfiguration()
     echo "Loaded PipelineConfiguration ${config}"
@@ -165,7 +164,9 @@ boolean isUseDockerSocket() {
     echo "WARNING: Failed to find the getUseDockerSocketFlag() flag on the PipelineConfiguration object - probably due to the jenkins plugin `kubernetes-pipeline-plugin` version: ${e}"
     e.printStackTrace()
   }
-  return supportsOpenShiftS2I() ? false : true;
+  boolean answer = supportsOpenShiftS2I() ? false : true;
+  echo "useDockerSocket = $answer"
+  return answer
 }
 
 @NonCPS
