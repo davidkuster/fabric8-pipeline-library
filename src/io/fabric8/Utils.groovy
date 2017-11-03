@@ -156,8 +156,8 @@ boolean isUseDockerSocket() {
   try {
     def config = pipelineConfiguration()
     echo "Loaded PipelineConfiguration ${config}"
-    def flag = config.getUseDockerSocketFlag()
-    if (flag != null) {
+    if (config?.getUseDockerSocketFlag() != null) {
+      def flag = config.getUseDockerSocketFlag()
       echo "Loaded the useDockerSocket flag ${flag}"
       return flag ? true : false
     }
