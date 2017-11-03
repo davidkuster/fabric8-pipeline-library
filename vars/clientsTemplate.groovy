@@ -81,15 +81,40 @@ def call(Map parameters = [:], body) {
             }
         } else {
             echo 'Mounting docker socket to build docker images'
-            podTemplate(cloud: cloud, label: label, serviceAccount: 'jenkins', inheritFrom: "${inheritFrom}",
-                    containers: [
-                            // [name: 'jnlp', image: "${jnlpImage}", args: '${computer.jnlpmac} ${computer.name}',  workingDir: '/home/jenkins/'],
-                            [name: 'clients', image: "${clientsImage}", command: '/bin/sh -c', args: 'cat', privileged: true,  workingDir: '/home/jenkins/', ttyEnabled: true, envVars: [[key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/']]]],
-                    volumes: [
-                            secretVolume(secretName: 'jenkins-docker-cfg', mountPath: '/home/jenkins/.docker'),
-                            secretVolume(secretName: 'jenkins-hub-api-token', mountPath: '/home/jenkins/.apitoken'),
-                            hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')],
-                    envVars: [[key: 'DOCKER_API_VERSION', value: '1.23'],[key: 'DOCKER_HOST', value: 'unix:/var/run/docker.sock'], [key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/']]) {
+            podTemplate(
+                cloud: cloud,
+                label: label,
+                serviceAccount: 'jenkins',
+                inheritFrom: "${inheritFrom}",
+                containers: [
+                    // [name: 'jnlp', image: "${jnlpImage}", args: '${computer.jnlpmac} ${computer.name}',  workingDir: '/home/jenkins/'],
+                    [
+                        name: 'clients',
+                        image: "${clientsImage}",
+                        command: '/bin/sh -c',
+                        args: 'cat',
+                        privileged: true,
+                        workingDir: '/home/jenkins/',
+                        ttyEnabled: true,
+                        envVars: [
+                            //[key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/']
+                            envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')
+                        ]
+                    ]
+                ],
+                volumes: [
+                    secretVolume(secretName: 'jenkins-docker-cfg', mountPath: '/home/jenkins/.docker'),
+                    secretVolume(secretName: 'jenkins-hub-api-token', mountPath: '/home/jenkins/.apitoken'),
+                    hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')],
+                envVars: [
+                    //[key: 'DOCKER_API_VERSION', value: '1.23'],
+                    //[key: 'DOCKER_HOST', value: 'unix:/var/run/docker.sock'],
+                    //[key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/']
+                    envVar(key: 'DOCKER_API_VERSION', value: '1.23'),
+                    envVar(key: 'DOCKER_HOST', value: 'unix:/var/run/docker.sock'),
+                    envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')
+                ]
+            ) {
                 body()
             }
         }
