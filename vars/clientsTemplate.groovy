@@ -54,8 +54,7 @@ def call(Map parameters = [:], body) {
                                     ttyEnabled: true,
                                     envVars: [
                                             envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/'),
-                                            envVar(key: 'DOCKER_API_VERSION', value: '1.23'),
-                                            envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')]
+                                            envVar(key: 'DOCKER_API_VERSION', value: '1.23')]
                             )],
                     volumes: [
                             secretVolume(secretName: 'jenkins-docker-cfg', mountPath: '/home/jenkins/.docker'),
