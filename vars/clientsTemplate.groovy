@@ -110,9 +110,9 @@ def call(Map parameters = [:], body) {
                     //[key: 'DOCKER_API_VERSION', value: '1.23'],
                     //[key: 'DOCKER_HOST', value: 'unix:/var/run/docker.sock'],
                     //[key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/']
-                    envVar(key: 'DOCKER_API_VERSION', value: '1.23'),
-                    envVar(key: 'DOCKER_HOST', value: 'unix:/var/run/docker.sock'),
-                    envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')
+                    podEnvVar(key: 'DOCKER_API_VERSION', value: '1.23'),
+                    podEnvVar(key: 'DOCKER_HOST', value: 'unix:/var/run/docker.sock'),
+                    podEnvVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')
                 ]
             ) {
                 body()
