@@ -98,7 +98,7 @@ def call(Map parameters = [:], body) {
                         ttyEnabled: true,
                         envVars: [
                             //[key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/']
-                            envVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')
+                            containerEnvVar(key: 'DOCKER_CONFIG', value: '/home/jenkins/.docker/')
                         ]
                     ]
                 ],
